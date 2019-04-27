@@ -1,7 +1,7 @@
 {
 	"ImportPath": "github.com/yudai/gotty",
 	"GoVersion": "go1.9",
-	"GodepVersion": "v79",
+	"GodepVersion": "v80",
 	"Deps": [
 		{
 			"ImportPath": "github.com/NYTimes/gziphandler",
@@ -49,6 +49,11 @@
 		{
 			"ImportPath": "github.com/yudai/hcl/json",
 			"Rev": "5fa2393b3552119bf33a69adb1402a1160cba23d"
+		},
+		{
+			"ImportPath": "github.com/rs/cors",
+			"Comment": "v1.6.0-1-ga3460e4",
+			"Rev": "a3460e445dd310dbefee993fe449f2ff9c08ae71"
 		}
 	]
 }

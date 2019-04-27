@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
+	"github.com/rs/cors"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -209,7 +210,7 @@ func (server *Server) setupHandlers(ctx context.Context, cancel context.CancelFu
 	wsMux.HandleFunc(pathPrefix+"ws", server.generateHandleWS(ctx, cancel, counter))
 	siteHandler = http.Handler(wsMux)
 
-	return siteHandler
+	return cors.Default().Handler(siteHandler)
 }
 
 func (server *Server) setupHTTPServer(handler http.Handler) (*http.Server, error) {
