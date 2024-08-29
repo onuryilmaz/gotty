@@ -73,7 +73,7 @@ func (server *Server) generateHandleWS(ctx context.Context, cancel context.Cance
 		}
 		defer conn.Close()
 
-		if server.options.PassHeaders {
+		if server.options.PassHeaders || server.options.PermitArguments {
 			err = server.processWSConn(ctx, conn, r.Header)
 		} else {
 			err = server.processWSConn(ctx, conn, nil)
@@ -92,7 +92,7 @@ func (server *Server) generateHandleWS(ctx context.Context, cancel context.Cance
 	}
 }
 
-func (server *Server) processWSConn(ctx context.Context, conn *websocket.Conn, headers map[string][]string) error {
+func (server *Server) processWSConn(ctx context.Context, conn *websocket.Conn, headers http.Header) error {
 	typ, initLine, err := conn.ReadMessage()
 	if err != nil {
 		return errors.Wrapf(err, "failed to authenticate websocket connection")
@@ -115,6 +115,11 @@ func (server *Server) processWSConn(ctx context.Context, conn *websocket.Conn, h
 		queryPath = init.Arguments
 	}
 
+	headerArguments := header.Get("Arguments")
+	if server.options.PermitArguments && headerArguments != "" {
+		queryPath = queryPath + "&" + headerArguments
+	}
+	
 	query, err := url.Parse(queryPath)
 	if err != nil {
 		return errors.Wrapf(err, "failed to parse arguments")
