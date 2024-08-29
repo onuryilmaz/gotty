@@ -145,7 +145,7 @@ func (server *Server) processWSConn(ctx context.Context, conn *websocket.Conn, h
 		queryPath = init.Arguments
 	}
 
-	headerArguments := header.Get("Arguments")
+	headerArguments := headers.Get("Arguments")
 	if server.options.PermitArguments && headerArguments != "" {
 		queryPath = queryPath + "&" + headerArguments
 	}
