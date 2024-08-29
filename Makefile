@@ -1,6 +1,6 @@
 OUTPUT_DIR = ./builds
 GIT_COMMIT = `git rev-parse HEAD | cut -c1-7`
-VERSION = $(shell git describe --tags)
+VERSION = $(shell git describe --tags --always)
 BUILD_OPTIONS = -ldflags "-X main.Version=$(VERSION)"
 
 ifeq ($(DEV), 1)
@@ -82,7 +82,7 @@ shasums:
 release-artifacts: gotty cross_compile targz shasums
 
 release:
-	ghr -draft ${VERSION} ${OUTPUT_DIR}/dist # -c ${GIT_COMMIT} --delete --prerelease -u sorenisanerd -r gotty ${VERSION}
+	ghr -draft ${VERSION} ${OUTPUT_DIR}/dist # -c ${GIT_COMMIT} --delete --prerelease -u onuryilmaz -r gotty ${VERSION}
 
 clean:
 	rm -fr gotty builds js/dist bindata/static js/node_modules
